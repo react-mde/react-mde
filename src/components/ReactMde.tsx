@@ -47,7 +47,8 @@ export interface ReactMdeProps {
   loadSuggestions?: (
     text: string,
     triggeredBy: string
-  ) => Promise<Suggestion[]>;
+  ) => Promise<Suggestion[] | { loading: React.ReactNode }>;
+  setSuggestions?: React.Ref<(suggestions: Suggestion[]) => void | null>;
   childProps?: ChildProps;
   paste?: PasteOptions;
   l18n?: L18n;
@@ -176,6 +177,7 @@ export class ReactMde extends React.Component<ReactMdeProps, ReactMdeState> {
       selectedTab,
       generateMarkdownPreview,
       loadSuggestions,
+      setSuggestions,
       suggestionTriggerCharacters,
       textAreaComponent
     } = this.props;
@@ -234,6 +236,7 @@ export class ReactMde extends React.Component<ReactMdeProps, ReactMdeState> {
             value={value}
             suggestionTriggerCharacters={suggestionTriggerCharacters}
             loadSuggestions={loadSuggestions}
+            setSuggestions={setSuggestions}
             onPossibleKeyCommand={
               this.commandOrchestrator.handlePossibleKeyCommand
             }
